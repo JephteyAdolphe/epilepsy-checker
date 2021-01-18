@@ -13,6 +13,7 @@ class Algo:
     def __init__(self, url: str, start: int, end: int) -> None:
         self.__video = YouTube(url)
 
+        # clears any existing mp4 files
         for fname in os.listdir('.'):
             if fname.endswith(".mp4"):
                 os.remove(fname)
@@ -24,7 +25,7 @@ class Algo:
         self.__shortenVideo(start, end)
 
     # shortens video file to a length of at most 10 seconds
-    def __shortenVideo(self, start, end) -> None:
+    def __shortenVideo(self, start: int, end: int) -> None:
 
         if start < 0 or end > start + 10 or end > self.__video.length:
             raise ValueError
@@ -33,58 +34,41 @@ class Algo:
             os.remove(self.__vidFile)
             self.__vidFile = "video.mp4"
 
+    # searches current directory for an mp4 file
     def __getVideoPath(self) -> str:
         for fname in os.listdir('.'):
             if fname.endswith(".mp4"):
                 return fname
         return ""
 
+    # gets the fps of the video sub-clip
     def __getFPS(self) -> int:  # maybe display this to the user
         cap = cv.VideoCapture(self.__vidFile)
         return math.floor(cap.get(cv.CAP_PROP_FPS))
 
+    # gets the total number of frames in the video sub-clip
     def __getFrames(self) -> int:   # maybe display this to the user
         cap = cv.VideoCapture(self.__vidFile)
         return int(cap.get(cv.CAP_PROP_FRAME_COUNT))
 
-    def analyze(self) -> None:
-        fps = self.__getFPS()
-        frames = self.__getFrames()
-        flashes = 0
-
-        for frame in range(frames):
-            if frame % fps == 0:
-                flashes = 0
-            flashes += 1
-
-    def __compareFrames(self, frame1: np.ndarray, frame2: np.ndarray, frameHeap: list) -> float:
-        # srgb = ImageCms.createProfile("sRGB")
-        # lab = ImageCms.createProfile("LAB")
-        # rgb2lab = ImageCms.buildTransformFromOpenProfiles(srgb, lab, "RGB", "LAB")
+    # returns sum of the differences in each of the frames' rgb channels
+    def __compareFrames(self, frame1: np.ndarray, frame2: np.ndarray) -> float:
         rgb1 = list(cv.mean(frame1))[0:3]
         rgb2 = list(cv.mean(frame2))[0:3]
-        diff = abs(rgb1[0] - rgb2[0]) + abs(rgb1[1] - rgb2[1]) + abs(rgb1[2] - rgb2[2])
+        return abs(rgb1[0] - rgb2[0]) + abs(rgb1[1] - rgb2[1]) + abs(rgb1[2] - rgb2[2])
 
-        return diff
-        # print(rgb2)
-        # frame1Lab = ImageCms.applyTransform(Image.fromarray(frame1), rgb2lab)
-        # frame2Lab = ImageCms.applyTransform(Image.fromarray(frame2), rgb2lab)
-
-    def showFrames(self) -> None:
+    # driver of the full video analysis
+    def analyze(self) -> str:
         cap = cv.VideoCapture(self.__vidFile)
         frameHeap = []
         fps = self.__getFPS()
-        totalFrames = self.__getFrames()
-        flashesPerSecond = []
+        flashesPerSecond = []   # list of numOfFlashes in each second of the video
         flashes = 0
         currentFrame = 0
 
-        # backSub = cv.createBackgroundSubtractorKNN()
-
         while True:
-            if currentFrame % fps == 0:
+            if currentFrame % fps == 0:     # started a new second
                 flashesPerSecond.append(flashes)
-                print(flashes)
                 flashes = 0
 
             ret, frame = cap.read()
@@ -92,34 +76,38 @@ class Algo:
             if len(frameHeap) < 2:
                 frameHeap.append(frame)
             elif len(frameHeap) == 2:
-                if self.__compareFrames(frameHeap[0], frameHeap[1], frameHeap) > 200:
+                if self.__compareFrames(frameHeap[0], frameHeap[1]) > 200:
                     flashes += 1
                 frameHeap.pop()
                 frameHeap.append(frame)
 
-            # frame is of type numpy.ndarray (3D)
-
             if frame is None:
                 break
 
-            # 172,800 pixels per frame
-            # print(cv)
-
             cv.imshow('Frame', frame)
-            keyboard = cv.waitKey(1)
-            if keyboard == 'q' or keyboard == 27:
-                break
+
+            cv.waitKey(1)
             currentFrame += 1
 
         print(flashesPerSecond[1:])
         cap.release()
         cv.destroyAllWindows()
 
+        count = 0   # num of seconds with a high flash rate (above 5 flashes per seconds)
+        for i in flashesPerSecond[1:]:
+            if i >= 5:
+                count += 1
+
+        if count >= 5:
+            return "High Risk"
+        elif 5 > count > 1:
+            return "Medium Risk"
+        else:
+            return "Low Risk"
+
     def __del__(self):
         os.remove(self.__vidFile)
 
-    # have to figure out what a flash is in the video
-
 
 test = Algo("https://www.youtube.com/watch?v=71-tMMtVWMI", 0, 10)
-test.showFrames()
+print(test.analyze())
