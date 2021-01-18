@@ -12,16 +12,16 @@ import math
 class Algo:
     def __init__(self, url: str, start: int, end: int) -> None:
         self.__video = YouTube(url)
-        # if self.__video.length <= 600:
+
+        for fname in os.listdir('.'):
+            if fname.endswith(".mp4"):
+                os.remove(fname)
+
         if not self.__getVideoPath():
             self.__video.streams.get_by_itag(160).download()
+
         self.__vidFile = self.__getVideoPath()
-
         self.__shortenVideo(start, end)
-        print(self.__video.streams.filter(file_extension='mp4'))
-
-        print(self.__getFPS())
-        print(self.__getFrames())
 
     # shortens video file to a length of at most 10 seconds
     def __shortenVideo(self, start, end) -> None:
@@ -57,12 +57,16 @@ class Algo:
                 flashes = 0
             flashes += 1
 
-    def __compareFrames(self, frame1: np.ndarray, frame2: np.ndarray, frameHeap: list) -> None:
+    def __compareFrames(self, frame1: np.ndarray, frame2: np.ndarray, frameHeap: list) -> float:
         # srgb = ImageCms.createProfile("sRGB")
         # lab = ImageCms.createProfile("LAB")
         # rgb2lab = ImageCms.buildTransformFromOpenProfiles(srgb, lab, "RGB", "LAB")
-        print(cv.mean(frame1))
-        print(cv.mean(frame2))
+        rgb1 = list(cv.mean(frame1))[0:3]
+        rgb2 = list(cv.mean(frame2))[0:3]
+        diff = abs(rgb1[0] - rgb2[0]) + abs(rgb1[1] - rgb2[1]) + abs(rgb1[2] - rgb2[2])
+
+        return diff
+        # print(rgb2)
         # frame1Lab = ImageCms.applyTransform(Image.fromarray(frame1), rgb2lab)
         # frame2Lab = ImageCms.applyTransform(Image.fromarray(frame2), rgb2lab)
 
@@ -71,6 +75,7 @@ class Algo:
         frameHeap = []
         fps = self.__getFPS()
         totalFrames = self.__getFrames()
+        flashesPerSecond = []
         flashes = 0
         currentFrame = 0
 
@@ -78,13 +83,17 @@ class Algo:
 
         while True:
             if currentFrame % fps == 0:
+                flashesPerSecond.append(flashes)
+                print(flashes)
                 flashes = 0
+
             ret, frame = cap.read()
 
             if len(frameHeap) < 2:
                 frameHeap.append(frame)
             elif len(frameHeap) == 2:
-                self.__compareFrames(frameHeap[0], frameHeap[1], frameHeap)
+                if self.__compareFrames(frameHeap[0], frameHeap[1], frameHeap) > 200:
+                    flashes += 1
                 frameHeap.pop()
                 frameHeap.append(frame)
 
@@ -97,11 +106,12 @@ class Algo:
             # print(cv)
 
             cv.imshow('Frame', frame)
-            keyboard = cv.waitKey(0)
+            keyboard = cv.waitKey(1)
             if keyboard == 'q' or keyboard == 27:
                 break
             currentFrame += 1
 
+        print(flashesPerSecond[1:])
         cap.release()
         cv.destroyAllWindows()
 
@@ -111,5 +121,5 @@ class Algo:
     # have to figure out what a flash is in the video
 
 
-test = Algo("https://www.youtube.com/watch?v=AjbrmfjJRk0", 0, 10)
+test = Algo("https://www.youtube.com/watch?v=71-tMMtVWMI", 0, 10)
 test.showFrames()
