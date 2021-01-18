@@ -2,14 +2,12 @@ import cv2 as cv
 from pytube import YouTube
 from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 import os
-import matplotlib.pyplot as plt
-import time
-from PIL import Image, ImageCms
 import numpy as np
 import math
 
 
 class Algo:
+    # start and end represent start and end time of sub-clip in seconds
     def __init__(self, url: str, start: int, end: int) -> None:
         self.__video = YouTube(url)
 
@@ -19,7 +17,7 @@ class Algo:
                 os.remove(fname)
 
         if not self.__getVideoPath():
-            self.__video.streams.get_by_itag(160).download()
+            self.__video.streams.get_by_itag(18).download()
 
         self.__vidFile = self.__getVideoPath()
         self.__shortenVideo(start, end)
@@ -107,7 +105,3 @@ class Algo:
 
     def __del__(self):
         os.remove(self.__vidFile)
-
-
-test = Algo("https://www.youtube.com/watch?v=71-tMMtVWMI", 0, 10)
-print(test.analyze())
