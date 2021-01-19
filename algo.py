@@ -84,6 +84,7 @@ class Algo:
             currentFrame += 1
 
         cap.release()
+        cv.waitKey(1)
 
         count = 0   # num of seconds with a high flash rate (above 5 flashes per seconds)
         for i in flashesPerSecond[1:]:
