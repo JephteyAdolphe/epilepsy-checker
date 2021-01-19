@@ -15,7 +15,7 @@ MarkupSafe==1.1.1
 matplotlib==3.3.3
 moviepy==1.0.3
 numpy==1.19.5
-opencv-python-headless==4.2.0.32
+opencv-python==4.5.1.48
 Pillow==8.1.0
 proglog==0.1.9
 pyparsing==2.4.7
