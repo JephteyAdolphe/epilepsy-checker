@@ -81,13 +81,9 @@ class Algo:
             if frame is None:
                 break
 
-            cv.imshow('Frame', frame)
-
-            cv.waitKey(1)
             currentFrame += 1
 
         cap.release()
-        cv.destroyAllWindows()
 
         count = 0   # num of seconds with a high flash rate (above 5 flashes per seconds)
         for i in flashesPerSecond[1:]:
