@@ -10,10 +10,11 @@
         <h1 class="headerText"><a href="http://127.0.0.1:5000/">Epilepsy Checker</a></h1>
     </div>
 
-    <div>
-        <div class="main">
+    <div class="main">
+        <div>
             {% block search %}{% endblock %}
             {% block analysis %}{% endblock %}
+            {% block error %}{% endblock %}
         </div>
     </div>
 

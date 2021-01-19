@@ -16,6 +16,35 @@
     font-weight: 400;
 }
 
+form {
+    text-align: center;
+}
+
+.numBox {
+    border-radius: 5px;
+    padding: 5px;
+    border-color: #1e293b;
+    width: 100px;
+}
+
+.submitBox {
+    height: 45px;
+    border-radius: 5px;
+    border-color: #1e293b;
+}
+
+.linkBox {
+    border-radius: 5px;
+    width: 90%;
+    height: 40px;
+    border-color: #1e293b;
+}
+
+.divForm {
+    width:50%
+    display: flex;
+}
+
 .variables {
     margin-left: auto;
     margin-right: auto;
@@ -50,7 +79,12 @@ p {
 }
 
 .timeInput {
-    padding-top: 6px;
+    padding-top: 16px;
+    justify-content: space-evenly;
+}
+
+.centerResults {
+    text-align: center;
 }
 
 .icons {
@@ -77,10 +111,11 @@ html body {
 }
 
 .main {
-    position: fixed;
-    top: 30%;
-    bottom: 70%;
-    justify-content: center;
+    position: flex;
+    padding-top: 200px;
+    top: 80%;
+    left: 50%;
+    text-align: center;
 }
 
 .centerItems {

@@ -3,7 +3,6 @@ from pytube import YouTube
 from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 import os
 import numpy as np
-import math
 
 
 class Algo:

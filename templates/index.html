@@ -1,19 +1,27 @@
 {% extends "base.html" %}
 {% block search %}
-<form action="{{ url_for('analysis') }}" method="post">
-    <div>
-        <input name="url" type="text" placeholder="Copy & Paste a YouTube URL">
-        <button type="submit" name="analysis">Analyze</button>
-    </div>
+<div>
+    <form action="{{ url_for('analysis') }}" method="post">
+        <div style="width: 70%; padding-left: 180px">
+            <input class="linkBox" name="url" type="text" placeholder="Copy & Paste a YouTube URL">
+            <button class="submitBox" type="submit" name="analysis">Analyze</button>
+        </div>
 
-    <div class="timeInput">
-        <input style="display: inline" name="startMin" type="number" min="0", max="59" value="0" required>
-        <p style="display: inline">:</p>
-        <input style="display: inline" name="startSec" type="number" min="0", max="59" value="0" required>
-        <p style="display: inline">to</p>
-        <input style="display: inline" name="endMin" type="number" min="0", max="59" value="0" required>
-        <p style="display: inline">:</p>
-        <input style="display: inline" name="endSec" type="number" min="1", max="59" value="1" required>
+        <div class="timeInput">
+            <input style="display: inline" name="startMin" type="number" min="0", max="59" placeholder="Start Minute" class="numBox" required>
+            <p style="display: inline; padding-right: 25px">:</p>
+            <input style="display: inline" name="startSec" type="number" min="0", max="59" placeholder="Start Second" class="numBox" required>
+            <p style="display: inline; padding-right: 25px">to</p>
+            <input style="display: inline" name="endMin" type="number" min="0", max="59" placeholder="End Minute" class="numBox" required>
+            <p style="display: inline; padding-right: 25px">:</p>
+            <input style="display: inline" name="endSec" type="number" min="0", max="59" placeholder="End Second" class="numBox" required>
+        </div>
+    </form>
+    <p style="color: #1e293b; padding-left: 55px">Analyzes clips up to 10 seconds</p>
+    <div style="padding-top: 50px">
+        <p style="color: #1e293b; font-size: 30px; font-weight: bold">Examples (Second link contains flashes)</p>
+        <p style="color: #1e293b; padding-left: 45px">https://www.youtube.com/watch?v=HeK6Z-OR7gY</p>
+        <p style="color: #1e293b; padding-left: 45px">https://www.youtube.com/watch?v=AjbrmfjJRk0</p>
     </div>
-</form>
+</div>
 {% endblock %}
