@@ -3,7 +3,7 @@
 Web app made using Python's Flask framework that analyzes bits of YouTube videos to determine whether or not they are safe for people with epilepsy.
 
 Landing Page:
-![](landingPage.png?raw=true)
+![Screenshot](landingPage.png)
 
 Results Page:
-![](results.png?raw=true)
+![Screenshot](results.png)
