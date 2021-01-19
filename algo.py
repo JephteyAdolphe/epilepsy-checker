@@ -56,7 +56,7 @@ class Algo:
         return abs(rgb1[0] - rgb2[0]) + abs(rgb1[1] - rgb2[1]) + abs(rgb1[2] - rgb2[2])
 
     # driver of the full video analysis
-    def analyze(self) -> str:
+    def analyze(self) -> list:
         cap = cv.VideoCapture(self.__vidFile)
         frameHeap = []
         fps = self.__getFPS()
@@ -87,7 +87,6 @@ class Algo:
             cv.waitKey(1)
             currentFrame += 1
 
-        print(flashesPerSecond[1:])
         cap.release()
         cv.destroyAllWindows()
 
@@ -96,12 +95,15 @@ class Algo:
             if i >= 5:
                 count += 1
 
+        webOutput = [self.__getFrames(), fps, flashesPerSecond[1:]]
         if count >= 5:
-            return "High Risk"
+            webOutput.append("High Risk")
         elif 5 > count > 1:
-            return "Medium Risk"
+            webOutput.append("Medium Risk")
         else:
-            return "Low Risk"
+            webOutput.append("Low Risk")
+
+        return webOutput
 
     def __del__(self):
         os.remove(self.__vidFile)

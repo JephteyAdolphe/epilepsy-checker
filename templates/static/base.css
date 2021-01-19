@@ -13,10 +13,17 @@
 .headerText {
     padding-left: 30px;
     font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+}
+
+p {
+    padding-left: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 200;
 }
 
 .footer {
-    position: fixed;
+    position: absolute;
     left: 0;
     bottom: 0;
     right: 0;
@@ -27,21 +34,39 @@
 }
 
 .icons {
-  height: 50px;
-  width: 50px;
-  background-color: beige;
+  height: 40px;
+  width: 40px;
+  background-color: #6ac4eb;
+  border-radius: 45%;
 }
 
 .icons:hover {
-  height: 50px;
-  width: 50px;
-  background-color: rgb(153, 153, 153);
+  height: 40px;
+  width: 40px;
+  background-color: #5aaacc;
+  border-radius: 45%;
 }
 
 .link-space {
-  margin-left: 1em;
-  margin-right: 1em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  position: center
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+html body {
+    background-color: #e0f6ff;
+}
+
+.main {
+    position: fixed;
+    top: 30%;
+    bottom: 70%;
+    justify-content: center;
+}
+
+.centerItems {
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
 }
