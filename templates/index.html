@@ -1,43 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Epilepsy Checker</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='base.css') }}">
-</head>
-<body>
-    <div class="header">
-        <h1 class="headerText">Epilepsy Checker</h1>
-    </div>
-
+{% extends "base.html" %}
+{% block search %}
+<form action="{{ url_for('analysis') }}" method="post">
     <div>
-        <div class="main">
-            <input type="text" placeholder="Copy & Paste a YouTube URL">
-            <button type="submit" name="analyze">Analyze</button>
-
-            <div>
-                <div class="variables">
-                    <p>Total Frames (360p):</p>
-                </div>
-                <div class="variables">
-                    <p>FPS:</p>
-                </div>
-                <div class="variables">
-                    <p>Flashes per Second:</p>
-                </div>
-            </div>
-        </div>
+        <input name="url" type="text" placeholder="Copy & Paste a YouTube URL">
+        <button type="submit" name="analysis">Analyze</button>
     </div>
 
-    <div class="footer">
-        <div class="centerItems">
-            <a class="link-space" href="https://www.linkedin.com/in/jephtey-adolphe-160166147/">
-                <img src="{{url_for('static', filename='linkedin.png')}}" alt="" class="icons" />
-            </a>
-            <a class="link-space" href="https://github.com/JephteyAdolphe/epilepsy-checker">
-              <img src="{{url_for('static', filename='github.png')}}" alt="" class="icons" />
-            </a>
-        </div>
+    <div class="timeInput">
+        <input style="display: inline" name="startMin" type="number" min="0", max="59" value="0" required>
+        <p style="display: inline">:</p>
+        <input style="display: inline" name="startSec" type="number" min="0", max="59" value="0" required>
+        <p style="display: inline">to</p>
+        <input style="display: inline" name="endMin" type="number" min="0", max="59" value="0" required>
+        <p style="display: inline">:</p>
+        <input style="display: inline" name="endSec" type="number" min="1", max="59" value="1" required>
     </div>
-</body>
-</html>
+</form>
+{% endblock %}

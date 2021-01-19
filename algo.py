@@ -42,7 +42,7 @@ class Algo:
     # gets the fps of the video sub-clip
     def __getFPS(self) -> int:  # maybe display this to the user
         cap = cv.VideoCapture(self.__vidFile)
-        return math.floor(cap.get(cv.CAP_PROP_FPS))
+        return round(cap.get(cv.CAP_PROP_FPS))
 
     # gets the total number of frames in the video sub-clip
     def __getFrames(self) -> int:   # maybe display this to the user

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Epilepsy Checker</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='base.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1 class="headerText"><a href="http://127.0.0.1:5000/">Epilepsy Checker</a></h1>
+    </div>
+
+    <div>
+        <div class="main">
+            {% block search %}{% endblock %}
+            {% block analysis %}{% endblock %}
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="centerItems">
+            <a class="link-space" href="https://www.linkedin.com/in/jephtey-adolphe-160166147/">
+                <img src="{{url_for('static', filename='linkedin.png')}}" alt="" class="icons" />
+            </a>
+            <a class="link-space" href="https://github.com/JephteyAdolphe/epilepsy-checker">
+              <img src="{{url_for('static', filename='github.png')}}" alt="" class="icons" />
+            </a>
+        </div>
+    </div>
+</body>
+</html>

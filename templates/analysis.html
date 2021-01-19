@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block analysis %}
+<div class="variables">
+    <div>
+        <p>Total Frames (360p): {{ frames }}</p>
+    </div>
+    <div>
+        <p>FPS: {{ fps }}</p>
+    </div>
+    <div>
+        <p>Flashes per Second: {{ flashes }}</p>
+    </div>
+
+    <div>
+        {% if risk == "High Risk" %}
+            <h1 style="color: red" class="headerText">High Risk</h1>
+        {% elif risk == "Medium Risk" %}
+            <h1 style="color: #fad155" class="headerText">Medium Risk</h1>
+        {% elif risk == "Low Risk" %}
+            <h1 style="color: green" class="headerText">Low Risk</h1>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
