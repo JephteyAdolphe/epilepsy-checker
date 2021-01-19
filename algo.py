@@ -2,6 +2,8 @@ import cv2 as cv
 from pytube import YouTube
 from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 import os
+import random
+import string
 import numpy as np
 
 
@@ -11,9 +13,7 @@ class Algo:
         self.__video = YouTube(url)
 
         # clears any existing mp4 files
-        for fname in os.listdir('.'):
-            if fname.endswith(".mp4"):
-                os.remove(fname)
+        self.__clearVideos()
 
         if not self.__getVideoPath():
             self.__video.streams.get_by_itag(18).download()
@@ -29,7 +29,7 @@ class Algo:
         else:
             ffmpeg_extract_subclip(self.__vidFile, start, end, targetname="video.mp4")
             os.remove(self.__vidFile)
-            self.__vidFile = "video.mp4"
+            self.__vidFile = f"{self.__generateFileName()}.mp4"
 
     # searches current directory for an mp4 file
     def __getVideoPath(self) -> str:
@@ -104,5 +104,13 @@ class Algo:
 
         return webOutput
 
-    def __del__(self):
-        os.remove(self.__vidFile)
+    def __clearVideos(self) -> None:
+        for fname in os.listdir('.'):
+            if fname.endswith(".mp4"):
+                os.remove(fname)
+
+    def __generateFileName(self) -> str:
+        return ''.join(random.choice(string.ascii_lowercase) for i in range(10))
+
+    def __del__(self) -> None:
+        self.__clearVideos()
