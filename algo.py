@@ -27,9 +27,10 @@ class Algo:
         if start < 0 or end > start + 10 or end > self.__video.length:
             raise ValueError
         else:
-            ffmpeg_extract_subclip(self.__vidFile, start, end, targetname="video.mp4")
+            newFilename = self.__generateFileName()
+            ffmpeg_extract_subclip(self.__vidFile, start, end, targetname=newFilename)
             os.remove(self.__vidFile)
-            self.__vidFile = f"{self.__generateFileName()}.mp4"
+            self.__vidFile = newFilename
 
     # searches current directory for an mp4 file
     def __getVideoPath(self) -> str:
@@ -82,9 +83,9 @@ class Algo:
                 break
 
             currentFrame += 1
+            cv.waitKey(1)
 
         cap.release()
-        cv.waitKey(1)
 
         count = 0   # num of seconds with a high flash rate (above 5 flashes per seconds)
         for i in flashesPerSecond[1:]:
@@ -107,7 +108,8 @@ class Algo:
                 os.remove(fname)
 
     def __generateFileName(self) -> str:
-        return ''.join(random.choice(string.ascii_lowercase) for i in range(10))
+        file = ''.join(random.choice(string.ascii_lowercase) for i in range(10))
+        return file + ".mp4"
 
     def __del__(self) -> None:
         self.__clearVideos()
