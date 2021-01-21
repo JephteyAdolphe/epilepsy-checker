@@ -5,7 +5,7 @@ Web app made using Python's Flask framework that analyzes bits of YouTube videos
 <a href="https://www.youtube.com/watch?v=UGMMeE0W9fE">Demo Video</a>
 <br/><br/>
 Landing Page:
-![](landing.png?raw=true)
+![Screenshot](landing.png)
 <br/><br/>
 Results Page:
-![](results.png?raw=true)
+![Screenshot](results.png)
