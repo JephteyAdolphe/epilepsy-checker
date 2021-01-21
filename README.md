@@ -4,6 +4,6 @@ Web app made using Python's Flask framework that analyzes bits of YouTube videos
 
 <a href="https://www.youtube.com/watch?v=UGMMeE0W9fE">Demo Video</a>
 <h3>Landing Page:</h3>
-![Screenshot](landing.png)
+<img alt="" src="https://github.com/JephteyAdolphe/epilepsy-checker/blob/main/landing.PNG?raw=true">
 <h3>Results Page:</h3>
-![Screenshot](results.png)
+<img alt="" src="https://github.com/JephteyAdolphe/epilepsy-checker/blob/main/results.PNG?raw=true">
