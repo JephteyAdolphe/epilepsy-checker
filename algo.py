@@ -74,7 +74,7 @@ class Algo:
             if len(frameHeap) < 2:
                 frameHeap.append(frame)
             elif len(frameHeap) == 2:
-                if self.__compareFrames(frameHeap[0], frameHeap[1]) > 200:
+                if self.__compareFrames(frameHeap[0], frameHeap[1]) > 600:
                     flashes += 1
                 frameHeap.pop()
                 frameHeap.append(frame)
